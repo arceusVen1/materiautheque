@@ -9,7 +9,7 @@ from materiaux.models import Materiau, Famille, SousFamille
 # Materiaux section ----------------------------------------------------------------------------------------------------
 def index(request):
     materiaux = Materiau.objects.all()
-    return render(request, 'materiaux/index.html')
+    return render(request, 'materiaux/index.html', {'materiaux': materiaux})
 
 
 def show_materiau(request, reference):
@@ -58,4 +58,3 @@ class UpdateMateriau(UpdateView):
     model = Materiau
     fields = ['ss_famille', 'fournisseur', 'usage', 'normatif', 'disponible']
     template_name_suffix = '_update_form'
-
