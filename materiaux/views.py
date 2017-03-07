@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
+from django.views.generic.edit import UpdateView
 from materiaux.models import Materiau, Famille, SousFamille
 
 
@@ -48,5 +49,13 @@ def delete_materiau(request, reference):
     mat.delete()
     return redirect(index)
 
-def edit_materiau
+
+class UpdateMateriau(UpdateView):
+    """
+    Permet la mise à jour d'un materiau via le template materiau_update_form.html
+    Inclut dans les urls par la méthode as_view()
+    """
+    model = Materiau
+    fields = ['ss_famille', 'fournisseur', 'usage', 'normatif', 'disponible']
+    template_name_suffix = '_update_form'
 
