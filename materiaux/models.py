@@ -11,7 +11,7 @@ class Materiau(models.Model):
         verbose_name_plural = "Materiaux"
 
     reference = models.CharField(max_length=255, unique=True)
-    famille = models.ForeignKey(Famille)
+    famille = models.ForeignKey('Famille')
     ss_famille = models.ForeignKey(SousFamille, verbose_name="Sous-famille")
     fournisseur = models.CharField(max_length=255, default="N.R.")
     usage = models.TextField(default="N.R.")
@@ -48,7 +48,7 @@ class SousFamille(models.Model):
     reference = models.CharField(max_length=6, primary_key=True)
     matiere = models.CharField(max_length=255)
     numero = models.IntegerField()
-    famille = models.ForeignKey(Famille)
+    famille = models.ForeignKey('Famille')
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
