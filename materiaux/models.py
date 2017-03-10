@@ -10,7 +10,7 @@ class Materiau(models.Model):
         verbose_name = "Materiau"
         verbose_name_plural = "Materiaux"
 
-    reference = models.CharField(max_length=255, unique=True)
+    slug = models.CharField(max_length=255, unique=True, verbose_name="référence", default="00")
     famille = models.ForeignKey('Famille')
     ss_famille = models.ForeignKey('SousFamille', verbose_name="Sous-famille")
     fournisseur = models.CharField(max_length=255, default="N.R.")
@@ -19,14 +19,18 @@ class Materiau(models.Model):
     disponible = models.BooleanField("Disponibilité", default=True)
     normatif = models.CharField("Critère normatif", choices=NORMATIF_CHOICES, default=(0, "N.R."), max_length=255)
 
+    #not working
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         self.famille = self.ss_famille.famille
-        self.reference = "MAT" + "-" + self.ss_famille.reference + "-" + str(self.id)
+        self.slug = "MAT" + "-" + self.ss_famille.reference + "-" + str(Materiau.objects.last().id + 1)
         super().save()
 
+    def get_absolute_url(self):
+        return u'/materiaux/{}'.format(self.slug)
+
     def __str__(self):
-        return self.reference
+        return self.slug
 
 
 class Famille(models.Model):
@@ -43,6 +47,10 @@ class Famille(models.Model):
         return super().save()
 
 
+    def get_absolute_url(self):
+        return u'/materiaux/famille/{}'.format(self.id)
+
+
 class SousFamille(models.Model):
 
     reference = models.CharField(max_length=6, primary_key=True)
@@ -55,6 +63,10 @@ class SousFamille(models.Model):
         self.numero = self.famille.sousfamille_set.count()
         self.reference = self.famille.abrege + "-" + str(self.numero)
         super().save()
+
+
+    def get_absolute_url(self):
+        return u'/materiaux/sous-famille/{}'.format(self.reference)
 
     def __str__(self):
         return self.matiere
