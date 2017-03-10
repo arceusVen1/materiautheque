@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+{% for materiau in materiaux %}
+    <a href="{% url 'materiau_path' reference=materiau.reference %}">{{ materiau.reference }}</a>
+{% endfor %}
+
+</body>
+</html>
