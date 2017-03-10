@@ -6,7 +6,7 @@
 </head>
 <body>
 {% for materiau in materiaux %}
-    <a href="{% url 'materiau_path' reference=materiau.reference %}">{{ materiau.reference }}</a>
+    <a href="{% url 'materiau_path' slug=materiau.slug %}">{{ materiau.slug }}</a>
 {% endfor %}
 
 </body>
