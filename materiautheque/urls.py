@@ -16,11 +16,11 @@ Including another URLconf
 from django.conf.urls import url
 from django.conf.urls import include
 from django.contrib import admin
-from materiautheque import views
+
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    #url(r'^materiaux/', include (materiaux.urls)),
-    #url(r'^propriete/', include (propriete.urls)),
-    url(r'^$', views.homepage, name='homepage'),
+    url(r'^materiaux/', include ('materiaux.urls')),
+    #url(r'^propriete/', include ('propriete.urls')),
+    #url(r'^$', views.homepage, name='homepage'),
 ]
