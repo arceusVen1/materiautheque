@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 class Materiau(models.Model):
 
-    NORMATIF_CHOICES = ((0, "N.R"))
+    NORMATIF_CHOICES = (("NR", "N.R"),("ECO", "écolo"))
 
     class Meta:
         verbose_name = "Materiau"
@@ -12,17 +12,17 @@ class Materiau(models.Model):
 
     reference = models.CharField(max_length=255, unique=True)
     famille = models.ForeignKey('Famille')
-    ss_famille = models.ForeignKey(SousFamille, verbose_name="Sous-famille")
+    ss_famille = models.ForeignKey('SousFamille', verbose_name="Sous-famille")
     fournisseur = models.CharField(max_length=255, default="N.R.")
     usage = models.TextField(default="N.R.")
     date = models.DateField(auto_now_add=True)
     disponible = models.BooleanField("Disponibilité", default=True)
-    normatif = models.CharField("Critère normatif", choices=NORMATIF_CHOICES, default=(0, "N.R."))
+    normatif = models.CharField("Critère normatif", choices=NORMATIF_CHOICES, default=(0, "N.R."), max_length=255)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         self.famille = self.ss_famille.famille
-        self.reference = "MAT" + self.ss_famille.reference + "-" + str(self.id)
+        self.reference = "MAT" + "-" + self.ss_famille.reference + "-" + str(self.id)
         super().save()
 
     def __str__(self):
@@ -52,7 +52,7 @@ class SousFamille(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        self.numero = self.famille.sousFamille_set.count()
+        self.numero = self.famille.sousfamille_set.count()
         self.reference = self.famille.abrege + "-" + str(self.numero)
         super().save()
 
