@@ -1,3 +1,65 @@
 from django.shortcuts import render
+from django.http import Http404
+from django.views.generic.edit import UpdateView, CreateView
+from propriete.models import Propriete
 
 # Create your views here.
+
+# Materiaux section ----------------------------------------------------------------------------------------------------
+def index(request):
+    proprietes = Propriete.objects.all()
+    return render(request, 'proprietes/index.html', {'proprietes': proprietes})
+
+def show_propriete(request, slug):
+    """
+    Retourne un materiau à la vue selon la référence
+
+    :param request: the request
+    :type request: HttpRequest
+    :param slug: le nom de la propriete
+    :type slug: str
+    :return: proprietes/show.html
+
+    :raises Http404: si le materiau n'existe pas
+    """
+    try:
+        prop = Propriete.objects.get(slug=slug)
+    except Propriete.DoesNotExist:
+        raise Http404("La propriété n'existe pas")
+    return render(request, "proprietes/show.html", {'prop': prop})
+
+
+def delete_materiau(request, slug):
+    """
+
+    :param request: la requête
+    :type request: HttpRequest
+    :param slug: le nom de la propriete
+    :type slug: str
+    :return: redirige vers l'index
+
+    :raises Http404: si le materiau n'existe pas
+    """
+    try:
+        prop = Propriete.objects.get(slug=slug)
+    except Propriete.DoesNotExist:
+        raise Http404("La propriete n'existe pas")
+    prop.delete()
+    return redirect(index)
+
+class UpdatePropriete(UpdateView):
+    """
+    Permet la mise à jour d'une propriete via le template propriete_form.html
+    Inclu dans les urls par la méthode as_view()
+    """
+    model = Propriete
+    fields = ['slug', 'unite', 'definition']
+    template_name_suffix = '_form'
+
+class CreateMateriau(CreateView):
+    """
+    Permet la création d'une proriete de manière générique
+    """
+    model = Materiau
+    fields = ['slug', 'unite', 'definition']
+    template_name_suffix = '_form'

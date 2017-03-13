@@ -52,7 +52,7 @@ def delete_materiau(request, slug):
 
 class UpdateMateriau(UpdateView):
     """
-    Permet la mise à jour d'un materiau via le template materiau_update_form.html
+    Permet la mise à jour d'un materiau via le template materiau_form.html
     Inclut dans les urls par la méthode as_view()
     """
     model = Materiau

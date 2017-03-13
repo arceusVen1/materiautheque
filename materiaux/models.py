@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 class Materiau(models.Model):
 
-    NORMATIF_CHOICES = (("NR", "N.R"),("ECO", "écolo"))
+    NORMATIF_CHOICES = (("NR", "N.R."),("ECO", "écolo"))
 
     class Meta:
         verbose_name = "Materiau"
