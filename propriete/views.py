@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.http import Http404
-from django.views.generic.edit import UpdateView, CreateView
+from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from propriete.models import Propriete
 
 # Create your views here.
 
-# Materiaux section ----------------------------------------------------------------------------------------------------
+# Proprietes section ----------------------------------------------------------------------------------------------------
+
 def index(request):
     proprietes = Propriete.objects.all()
     return render(request, 'proprietes/index.html', {'proprietes': proprietes})
@@ -28,25 +30,6 @@ def show_propriete(request, slug):
         raise Http404("La propriété n'existe pas")
     return render(request, "proprietes/show.html", {'prop': prop})
 
-
-def delete_materiau(request, slug):
-    """
-
-    :param request: la requête
-    :type request: HttpRequest
-    :param slug: le nom de la propriete
-    :type slug: str
-    :return: redirige vers l'index
-
-    :raises Http404: si le materiau n'existe pas
-    """
-    try:
-        prop = Propriete.objects.get(slug=slug)
-    except Propriete.DoesNotExist:
-        raise Http404("La propriete n'existe pas")
-    prop.delete()
-    return redirect(index)
-
 class UpdatePropriete(UpdateView):
     """
     Permet la mise à jour d'une propriete via le template propriete_form.html
@@ -56,10 +39,17 @@ class UpdatePropriete(UpdateView):
     fields = ['slug', 'unite', 'definition']
     template_name_suffix = '_form'
 
-class CreateMateriau(CreateView):
+class CreatePropriete(CreateView):
     """
     Permet la création d'une proriete de manière générique
     """
-    model = Materiau
+    model = Propriete
     fields = ['slug', 'unite', 'definition']
     template_name_suffix = '_form'
+
+class DeletePropriete(DeleteView):
+    """
+    Permet la suppression d'une propriété de manière générique
+    """
+    model = Propriete
+    success_url = reverse_lazy('materiaux_path')
