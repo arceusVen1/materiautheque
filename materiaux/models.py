@@ -23,7 +23,11 @@ class Materiau(models.Model):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         self.famille = self.ss_famille.famille
-        self.slug = "MAT" + "-" + self.ss_famille.reference + "-" + str(Materiau.objects.last().id + 1)
+        self.slug = "MAT" + "-" + self.ss_famille.reference + "-"
+        if self.id is None:
+            last = Materiau.objects.last()
+            self.id = last.id + 1
+        self.slug += str(self.id)
         super().save()
 
     def get_absolute_url(self):
@@ -46,7 +50,6 @@ class Famille(models.Model):
              update_fields=None):
         return super().save()
 
-
     def get_absolute_url(self):
         return u'/materiaux/famille/{}'.format(self.id)
 
@@ -63,7 +66,6 @@ class SousFamille(models.Model):
         self.numero = self.famille.sousfamille_set.count()
         self.reference = self.famille.abrege + "-" + str(self.numero)
         super().save()
-
 
     def get_absolute_url(self):
         return u'/materiaux/sous-famille/{}'.format(self.reference)
