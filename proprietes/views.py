@@ -2,15 +2,17 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.http import Http404
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
-from propriete.models import Propriete
+from proprietes.models import Propriete
 
 # Create your views here.
 
-# Proprietes section ----------------------------------------------------------------------------------------------------
+# Proprietes section --------------------------------------------------------------------------------------------------
+
 
 def index(request):
     proprietes = Propriete.objects.all()
-    return render(request, 'propriete/index.html', {'proprietes': proprietes})
+    return render(request, "proprietes/index.html", {'proprietes': proprietes})
+
 
 def show_propriete(request, slug):
     """
@@ -18,7 +20,7 @@ def show_propriete(request, slug):
 
     :param request: the request
     :type request: HttpRequest
-    :param slug: le nom de la propriete
+    :param slug: le nom de la proprietes
     :type slug: str
     :return: proprietes/show.html
 
@@ -28,16 +30,17 @@ def show_propriete(request, slug):
         prop = Propriete.objects.get(slug=slug)
     except Propriete.DoesNotExist:
         raise Http404("La propriété n'existe pas")
-    return render(request, "propriete/show.html", {'prop': prop})
+    return render(request, "proprietes/show.html", {'prop': prop})
+
 
 class UpdatePropriete(UpdateView):
     """
-    Permet la mise à jour d'une propriete via le template propriete_form.html
+    Permet la mise à jour d'une proprietes via le template propriete_form.html
     Inclu dans les urls par la méthode as_view()
     """
     model = Propriete
     fields = ['slug', 'unite', 'definition']
-    template_name_suffix = '_form'
+
 
 class CreatePropriete(CreateView):
     """
@@ -45,11 +48,11 @@ class CreatePropriete(CreateView):
     """
     model = Propriete
     fields = ['slug', 'unite', 'definition']
-    template_name_suffix = '_form'
+
 
 class DeletePropriete(DeleteView):
     """
     Permet la suppression d'une propriété de manière générique
     """
     model = Propriete
-    success_url = reverse_lazy('materiaux_path')
+    success_url = reverse_lazy('proprietes_path')

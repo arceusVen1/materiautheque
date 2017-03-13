@@ -21,6 +21,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^materiaux/', include ('materiaux.urls')),
-    url(r'^propriete/', include ('propriete.urls')),
+    url(r'^proprietes/', include ('proprietes.urls')),
     #url(r'^$', views.homepage, name='homepage'),
 ]

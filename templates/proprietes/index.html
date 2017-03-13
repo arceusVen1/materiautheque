@@ -6,7 +6,7 @@
 </head>
 <body>
 {% for propriete in proprietes %}
-    <a href="{% url 'propriete_path' slug=propriete.slug %}">{{ propriete.slug }}</a>
+    <a href="{% url 'proprietes_path' slug=propriete.slug %}">{{ propriete.slug }}</a>
 {% endfor %}
 
 </body>
