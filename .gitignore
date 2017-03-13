@@ -11,6 +11,7 @@ settings.py
 *.log
 *.pot
 *.pyc
+*.xml
 
 ;;directories to ignore
 .idea/
