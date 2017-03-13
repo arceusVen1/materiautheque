@@ -10,7 +10,7 @@ from propriete.models import Propriete
 
 def index(request):
     proprietes = Propriete.objects.all()
-    return render(request, 'proprietes/index.html', {'proprietes': proprietes})
+    return render(request, 'propriete/index.html', {'proprietes': proprietes})
 
 def show_propriete(request, slug):
     """
@@ -28,7 +28,7 @@ def show_propriete(request, slug):
         prop = Propriete.objects.get(slug=slug)
     except Propriete.DoesNotExist:
         raise Http404("La propriété n'existe pas")
-    return render(request, "proprietes/show.html", {'prop': prop})
+    return render(request, "propriete/show.html", {'prop': prop})
 
 class UpdatePropriete(UpdateView):
     """
