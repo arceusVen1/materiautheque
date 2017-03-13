@@ -51,7 +51,7 @@ class Famille(models.Model):
         return super().save()
 
     def get_absolute_url(self):
-        return u'/materiaux/famille/{}'.format(self.id)
+        return u'/materiaux/famille/{}'.format(self.abrege)
 
 
 class SousFamille(models.Model):

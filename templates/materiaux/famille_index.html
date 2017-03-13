@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+{% for famille in familles %}
+    <a href="{% url 'famille_path' pk=famille.abrege %}">{{ famille.abrege }}</a>
+{% endfor %}
+
+</body>
+</html>
