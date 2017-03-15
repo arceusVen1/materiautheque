@@ -19,9 +19,15 @@ class Materiau(models.Model):
     date = models.DateField(auto_now_add=True)
     disponible = models.BooleanField("Disponibilité", default=True)
     normatif = models.CharField("Critère normatif", choices=NORMATIF_CHOICES, default=(0, "N.R."), max_length=255)
-    qrcode = models.ImageField(upload_to='materiauxpyth', null=True, default=None)
+    qrcode = models.ImageField(upload_to='materiaux', null=True, default=None)
+    propriete = models.TextField()
 
-    #not working
+    def set_propriete(self):
+        pass
+
+    def get_propriete(self):
+        pass
+
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         self.famille = self.ss_famille.famille
