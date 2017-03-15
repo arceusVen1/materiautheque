@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+import json
 
 
 # Create your models here.
@@ -19,9 +20,16 @@ class Materiau(models.Model):
     date = models.DateField(auto_now_add=True)
     disponible = models.BooleanField("Disponibilité", default=True)
     normatif = models.CharField("Critère normatif", choices=NORMATIF_CHOICES, default=(0, "N.R."), max_length=255)
+    proprietes = models.TextField("Propriétés", null=True, default="{}")
     qrcode = models.ImageField(upload_to='materiauxpyth', null=True, default=None)
 
-    #not working
+
+    def set_proprietes(self, proprietes):
+        self.proprietes = json.dumps(proprietes)
+
+    def get_proprietes(self):
+        return json.loads(self.proprietes)
+
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         self.famille = self.ss_famille.famille
