@@ -68,7 +68,7 @@ def create_or_edit_materiau(request, slug=None):
     initial = {}
     template ='materiaux/materiau_create.html'
     if mat is not None:
-        initial = dict(ss_famille=mat.ss_famille, fournisseur=mat.fournisseur, normatif=mat.normatif,
+        initial = dict(nom=mat.nom, ss_famille=mat.ss_famille, fournisseur=mat.fournisseur, normatif=mat.normatif,
                        disponible=mat.disponible)
         proprietes = mat.get_proprietes()
         for propriete in proprietes:
@@ -77,6 +77,7 @@ def create_or_edit_materiau(request, slug=None):
     form = MateriauForm(request.POST or None, initial=initial)
     if form.is_valid():
         proprietes = []
+        nom = form.cleaned_data["nom"]
         ss_famille = form.cleaned_data['ss_famille']
         fournisseur = form.cleaned_data["fournisseur"]
         normatif = form.cleaned_data["normatif"]
@@ -84,12 +85,13 @@ def create_or_edit_materiau(request, slug=None):
         for propriete in Propriete.objects.all():
             proprietes.append({"id": propriete.id, "valeur": float(form.cleaned_data[propriete.slug])})
         if mat is not None:
+            mat.nom = nom
             mat.ss_famille = ss_famille
             mat.fournisseur = fournisseur
             mat.normatif = normatif
             mat.disponible = disponible
         else:
-            mat = Materiau(ss_famille=ss_famille, fournisseur=fournisseur, normatif=normatif, disponible=disponible)
+            mat = Materiau(nom=nom, ss_famille=ss_famille, fournisseur=fournisseur, normatif=normatif, disponible=disponible)
         mat.set_proprietes(proprietes)
         mat.save()
         return HttpResponseRedirect(reverse('materiau_path', args=[mat.slug]))

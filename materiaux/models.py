@@ -13,6 +13,7 @@ class Materiau(models.Model):
         verbose_name_plural = "Materiaux"
 
     slug = models.CharField(max_length=255, unique=True, verbose_name="référence", default="00")
+    nom = models.CharField(max_length=255, verbose_name="Nom générique", default="N.R.")
     famille = models.ForeignKey('Famille')
     ss_famille = models.ForeignKey('SousFamille', verbose_name="Sous-famille")
     fournisseur = models.CharField(max_length=255, default="N.R.")
@@ -35,8 +36,11 @@ class Materiau(models.Model):
         self.famille = self.ss_famille.famille
         self.slug = "MAT" + "-" + self.ss_famille.reference + "-"
         if self.id is None:
-            last = Materiau.objects.last()
-            self.id = last.id + 1
+            try:
+                last = Materiau.objects.last()
+                self.id = last.id + 1
+            except AttributeError:
+                self.id = 0
         self.slug += str(self.id)
         import qrcode
         qr = qrcode.QRCode(version=20, error_correction=qrcode.constants.ERROR_CORRECT_L)
