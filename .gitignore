@@ -16,3 +16,6 @@ settings.py
 ;;directories to ignore
 .idea/
 .DS_Store/
+./lib/
+./bin/
+./share/
