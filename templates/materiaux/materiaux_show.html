@@ -12,6 +12,8 @@
             <a href="{% url 'propriete_path' propriete.slug %}"><p>{{ propriete.slug }}</p></a>
             <p>{{ propriete.valeur }}</p>
         {% endfor %}
+        <br />
+        <input type="button" value="Générer PDF" OnClick="window.location.href='{{ request.path }}generatePDF'" />
 
 </body>
 </html>
