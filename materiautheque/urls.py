@@ -22,5 +22,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^materiaux/', include ('materiaux.urls')),
     url(r'^propriete/', include ('propriete.urls')),
-    #url(r'^$', views.homepage, name='homepage'),
+    url(r'^$', include('homepage.urls')),
 ]
