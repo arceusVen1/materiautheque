@@ -8,5 +8,10 @@
         {{ mat.famille }}
         {{ mat.usage }}
         <img src="{{ mat.qrcode }}" alt="qrcode">
+        {% for propriete in proprietes %}
+            <a href="{% url 'propriete_path' propriete.slug %}"><p>{{ propriete.slug }}</p></a>
+            <p>{{ propriete.valeur }}</p>
+        {% endfor %}
+
 </body>
 </html>
