@@ -5,7 +5,7 @@
 
 
 ;;files to ignore
-settings.py
+;;settings.py
 pip-selfcheck.json
 
 ;;extensions to ignore

@@ -32,7 +32,7 @@ class Materiau(models.Model):
         self.slug += str(self.id)
         import qrcode
         qr = qrcode.QRCode(version=20, error_correction=qrcode.constants.ERROR_CORRECT_L)
-        qr.add_data(self.get_absolute_url())
+        qr.add_data(settings.SITE_URL + self.get_absolute_url())
         path = settings.MEDIA_URL + 'materiaux/' + self.slug + ".jpg"
         qr.make_image().save("." + path)
         self.qrcode = path
