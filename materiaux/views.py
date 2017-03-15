@@ -22,7 +22,6 @@ def render_to_pdf(template_src, context_dict):
     context = Context(context_dict)
     html = template.render(context)
     result = BytesIO()
-
     pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
     if not pdf.err:
         return HttpResponse(result.getvalue(), content_type='application/pdf')
@@ -58,39 +57,43 @@ def show_materiau(request, slug):
         raise Http404("La référence de l'objet n'existe pas")
     return render(request, "materiaux/materiaux_show.html", {'mat': mat, "proprietes": proprietes})
 
-def create_materiau(request):
-    proprietes = []
-    form = MateriauForm(request.POST or None)
+
+def create_or_edit_materiau(request, slug=None):
+    mat = None
+    if slug is not None:
+        try:
+            mat = Materiau.objects.get(slug=slug)
+        except Materiau.DoesNotExist:
+            raise Http404("la référence de l'objet n'existe pas")
+    initial = {}
+    template ='materiaux/materiau_create.html'
+    if mat is not None:
+        initial = dict(ss_famille=mat.ss_famille, fournisseur=mat.fournisseur, normatif=mat.normatif,
+                       disponible=mat.disponible)
+        proprietes = mat.get_proprietes()
+        for propriete in proprietes:
+            initial[Propriete.objects.get(id=propriete["id"]).slug] = propriete["valeur"]
+        template = 'materiaux/materiau_update.html'
+    form = MateriauForm(request.POST or None, initial=initial)
     if form.is_valid():
-        ssfamille = form.cleaned_data['ssfamille']
+        proprietes = []
+        ss_famille = form.cleaned_data['ss_famille']
         fournisseur = form.cleaned_data["fournisseur"]
         normatif = form.cleaned_data["normatif"]
         disponible = form.cleaned_data["disponible"]
         for propriete in Propriete.objects.all():
             proprietes.append({"id": propriete.id, "valeur": float(form.cleaned_data[propriete.slug])})
-        materiau = Materiau(ss_famille=ssfamille, fournisseur=fournisseur,normatif=normatif, disponible=disponible)
-        materiau.set_proprietes(proprietes)
-        materiau.save()
-        return HttpResponseRedirect(reverse('materiau_path', args= [materiau.slug]))
-    return render(request, 'materiaux/materiau_create.html', {'form': form})
-
-class CreateMateriau(CreateView):
-    """
-    Permet la création d'un matériau de manière générique
-    """
-    model = Materiau
-    fields = ['ss_famille', 'fournisseur', 'usage', 'normatif', 'disponible']
-    template_name_suffix = "_create"
-
-
-class UpdateMateriau(UpdateView):
-    """
-    Permet la mise à jour d'un materiau via le template materiau_form.html
-    Inclut dans les urls par la méthode as_view()
-    """
-    model = Materiau
-    fields = ['ss_famille', 'fournisseur', 'usage', 'normatif', 'disponible']
-    template_name_suffix = '_update'
+        if mat is not None:
+            mat.ss_famille = ss_famille
+            mat.fournisseur = fournisseur
+            mat.normatif = normatif
+            mat.disponible = disponible
+        else:
+            mat = Materiau(ss_famille=ss_famille, fournisseur=fournisseur, normatif=normatif, disponible=disponible)
+        mat.set_proprietes(proprietes)
+        mat.save()
+        return HttpResponseRedirect(reverse('materiau_path', args=[mat.slug]))
+    return render(request, template, {'form': form})
 
 
 class DeleteMateriau(DeleteView):
@@ -100,13 +103,16 @@ class DeleteMateriau(DeleteView):
     model = Materiau
     success_url = reverse_lazy('materiaux_path')
 
-def GeneratePDFMateriau(request, slug):
+def generate_pdf_materiau(request, slug):
     """
     Permet la génération du pdf
     """
     try:
         mat = Materiau.objects.get(slug=slug)
         proprietes = mat.get_proprietes()
+        for i in range(len(proprietes)):
+            prop = Propriete.objects.get(id=proprietes[i]["id"])
+            proprietes[i]["slug"] = prop.slug
     except Materiau.DoesNotExist:
         raise Http404("La référence de l'objet n'existe pas")
     return render_to_pdf(
