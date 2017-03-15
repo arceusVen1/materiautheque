@@ -6,6 +6,7 @@
 
 ;;files to ignore
 settings.py
+pip-selfcheck.json
 
 ;;extensions to ignore
 *.log
