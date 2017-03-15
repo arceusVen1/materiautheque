@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^(?P<slug>\w+)/edit/$', views.UpdatePropriete.as_view(model=Propriete), name='propriete_path'),
     url(r'^(?P<slug>\w+)/delete/$', views.DeletePropriete.as_view(model=Propriete),
         name='delete_propriete_path'),
+    url(r'^(?P<slug>\w+)/generatePDF/$', views.GeneratePDFPropriete, name='pdf_propriete_path'),
 
 ]

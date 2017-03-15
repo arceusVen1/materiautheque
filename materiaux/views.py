@@ -5,9 +5,29 @@ from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from materiaux.models import Materiau, Famille, SousFamille
 from materiaux.form import MateriauForm
 from propriete.models import Propriete
+from io import BytesIO
+from xhtml2pdf import pisa
+from django.template.loader import get_template
+from django.template import Context
+from django.http import HttpResponse
+from html import escape
 
 
 # Create your views here.
+
+# PDF rendering section ------------------------------------------------------------------------------------------------
+
+def render_to_pdf(template_src, context_dict):
+    template = get_template(template_src)
+    context = Context(context_dict)
+    html = template.render(context)
+    result = BytesIO()
+
+    pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
+
 
 # Materiaux section ----------------------------------------------------------------------------------------------------
 
@@ -76,6 +96,19 @@ class DeleteMateriau(DeleteView):
     """
     model = Materiau
     success_url = reverse_lazy('materiaux_path')
+
+def GeneratePDFMateriau(request, slug):
+    """
+    Permet la génération du pdf
+    """
+    try:
+        mat = Materiau.objects.get(slug=slug)
+        proprietes = mat.get_proprietes()
+    except Materiau.DoesNotExist:
+        raise Http404("La référence de l'objet n'existe pas")
+    return render_to_pdf(
+            'materiaux/materiaux_show.html', {'mat': mat, "proprietes": proprietes}
+        )
 
 
 # end Materiaux section-------------------------------------------------------------------------------------------------
@@ -185,3 +218,6 @@ class DeleteFamille(DeleteView):
     """
     model = Famille
     success_url = reverse_lazy('familles_path')
+
+
+# end Famille section----------------------------------------------------------------------------------------------
