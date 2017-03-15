@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^(?P<slug>MAT-\w{2}-\d+-\d+)/edit/$', views.UpdateMateriau.as_view(model=Materiau), name='edit_materiau_path'),
     url(r'^(?P<slug>MAT-\w{2}-\d+-\d+)/delete/$', views.DeleteMateriau.as_view(model=Materiau), name='delete_materiau_path'),
     url(r'^famille/$', views.famille_index, name='familles_path'),
-    url(r'^famille/nouvelle/$', views.CreateFamille.as_view(model=Famille), name='famille_path'),
+    url(r'^famille/nouvelle/$', views.CreateFamille.as_view(model=Famille), name='new_famille_path'),
     url(r'^famille/(?P<pk>\w{2})/$', views.show_famille, name='famille_path'),
     url(r'^famille/(?P<pk>\w{2})/edit/$', views.UpdateFamille.as_view(model=Famille), name='edit_famille_path'),
     url(r'^famille/(?P<pk>\w{2})/delete/$', views.DeleteFamille.as_view(model=Famille), name='delete_famille_path'),
