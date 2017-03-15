@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.http import Http404
+from django.urls import reverse_lazy, reverse
+from django.http import Http404, HttpResponseRedirect
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from materiaux.models import Materiau, Famille, SousFamille
+from materiaux.form import MateriauForm
+from propriete.models import Propriete
 
 
 # Create your views here.
@@ -28,10 +30,26 @@ def show_materiau(request, slug):
     """
     try:
         mat = Materiau.objects.get(slug=slug)
+        proprietes = mat.get_proprietes()
     except Materiau.DoesNotExist:
         raise Http404("La référence de l'objet n'existe pas")
-    return render(request, "materiaux/materiaux_show.html", {'mat': mat})
+    return render(request, "materiaux/materiaux_show.html", {'mat': mat, "proprietes": proprietes})
 
+def create_materiau(request):
+    proprietes = []
+    form = MateriauForm(request.POST or None)
+    if form.is_valid():
+        ssfamille = form.cleaned_data['ssfamille']
+        fournisseur = form.cleaned_data["fournisseur"]
+        normatif = form.cleaned_data["normatif"]
+        disponible = form.cleaned_data["disponible"]
+        for propriete in Propriete.objects.all():
+            proprietes.append({"slug": propriete.slug, "valeur": float(form.cleaned_data[propriete.slug])})
+        materiau = Materiau(ss_famille=ssfamille, fournisseur=fournisseur,normatif=normatif, disponible=disponible)
+        materiau.set_proprietes(proprietes)
+        materiau.save()
+        return HttpResponseRedirect(reverse('materiau_path', args= [materiau.slug]))
+    return render(request, 'materiaux/materiau_create.html', {'form': form})
 
 class CreateMateriau(CreateView):
     """
