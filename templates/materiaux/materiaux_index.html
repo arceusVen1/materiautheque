@@ -5,6 +5,7 @@
     <title>test</title>
 </head>
 <body>
+    <h2><a href="{% url 'new_materiau_path' %}"></a>Nouveau</h2>
 {% for materiau in materiaux %}
     <a href="{% url 'materiau_path' slug=materiau.slug %}">{{ materiau.slug }}</a>
 {% endfor %}

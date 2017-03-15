@@ -5,6 +5,7 @@
     <title>test</title>
 </head>
 <body>
+    <h2><a href="{% url 'new_famille_path' %}"></a>Nouveau</h2>
 {% for famille in familles %}
     <a href="{% url 'famille_path' pk=famille.abrege %}">{{ famille.abrege }}</a>
 {% endfor %}
