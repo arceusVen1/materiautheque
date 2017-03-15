@@ -51,6 +51,9 @@ def show_materiau(request, slug):
     try:
         mat = Materiau.objects.get(slug=slug)
         proprietes = mat.get_proprietes()
+        for i in range(len(proprietes)):
+            prop = Propriete.objects.get(id=proprietes[i]["id"])
+            proprietes[i]["slug"] = prop.slug
     except Materiau.DoesNotExist:
         raise Http404("La référence de l'objet n'existe pas")
     return render(request, "materiaux/materiaux_show.html", {'mat': mat, "proprietes": proprietes})
@@ -64,7 +67,7 @@ def create_materiau(request):
         normatif = form.cleaned_data["normatif"]
         disponible = form.cleaned_data["disponible"]
         for propriete in Propriete.objects.all():
-            proprietes.append({"slug": propriete.slug, "valeur": float(form.cleaned_data[propriete.slug])})
+            proprietes.append({"id": propriete.id, "valeur": float(form.cleaned_data[propriete.slug])})
         materiau = Materiau(ss_famille=ssfamille, fournisseur=fournisseur,normatif=normatif, disponible=disponible)
         materiau.set_proprietes(proprietes)
         materiau.save()
