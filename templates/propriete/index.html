@@ -5,6 +5,7 @@
     <title>test</title>
 </head>
 <body>
+    <h2><a href="{% url 'new_materiau_path' %}">Nouveau</a></h2>
 {% for propriete in proprietes %}
     <a href="{% url 'propriete_path' slug=propriete.slug %}">{{ propriete.slug }}</a>
 {% endfor %}
