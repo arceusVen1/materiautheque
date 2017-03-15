@@ -6,9 +6,10 @@ class MateriauForm(forms.Form):
 
 
     #FAMILLE_CHOICES = [(ssfamille.reference, ssfamille.reference + " - " + ssfamille.matiere) for ssfamille in SousFamille.objects.all()]
+    nom = forms.CharField(max_length=255, label="Nom Générique")
     ss_famille = forms.ModelChoiceField(label="Sous-familles", queryset=SousFamille.objects.all())
     fournisseur = forms.CharField(max_length=255, label="Fournisseur", initial="N.R.")
-    normatif = forms.CharField(max_length=255, label="Critère normatif")
+    normatif = forms.CharField(max_length=255, label="Critère normatif", initial="N.R.")
     disponible = forms.BooleanField(label="Objet disponible")
 
     def __init__(self, *args, **kwargs):
