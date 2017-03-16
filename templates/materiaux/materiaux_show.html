@@ -7,10 +7,12 @@
 <body>
         {{ mat.famille }}
         {{ mat.usage }}
-        <img src="{{ mat.qrcode }}" alt="qrcode">
+        <img src="{{ mat.qrcode.url }}" alt="qrcode" width="300">
         {% for propriete in proprietes %}
-            <a href="{% url 'propriete_path' propriete.slug %}"><p>{{ propriete.slug }}</p></a>
-            <p>{{ propriete.valeur }}</p>
+            {% if propriete.valeur != -1 %}
+                <p><a href="{% url 'propriete_path' propriete.slug %}">{{ propriete.slug }}</a> : {{ propriete.valeur }} {{ propriete.unite }}</p>
+                <br>
+            {% endif %}
         {% endfor %}
         <br />
         <input type="button" value="Générer PDF" OnClick="window.location.href='{{ request.path }}generatePDF'" />

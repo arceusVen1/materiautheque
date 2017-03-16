@@ -54,6 +54,7 @@ def show_materiau(request, slug):
             try:
                 prop = Propriete.objects.get(id=proprietes[i]["id"])
                 proprietes[i]["slug"] = prop.slug
+                proprietes[i]["unite"] = prop.unite
             except Propriete.DoesNotExist:
                 del proprietes[i]
     except Materiau.DoesNotExist:
@@ -75,7 +76,10 @@ def create_or_edit_materiau(request, slug=None):
                        disponible=mat.disponible)
         proprietes = mat.get_proprietes()
         for propriete in proprietes:
-            initial[Propriete.objects.get(id=propriete["id"]).slug] = propriete["valeur"]
+            try:
+                initial[Propriete.objects.get(id=propriete["id"]).slug] = propriete["valeur"]
+            except Propriete.DoesNotExist:
+                pass
         template = 'materiaux/materiau_update.html'
     form = MateriauForm(request.POST or None, initial=initial)
     if form.is_valid():
@@ -86,7 +90,10 @@ def create_or_edit_materiau(request, slug=None):
         normatif = form.cleaned_data["normatif"]
         disponible = form.cleaned_data["disponible"]
         for propriete in Propriete.objects.all():
-            proprietes.append({"id": propriete.id, "valeur": float(form.cleaned_data[propriete.slug])})
+            if form.cleaned_data[propriete.slug] is None:
+                proprietes.append({"id": propriete.id, "valeur": -1})
+            else:
+                proprietes.append({"id": propriete.id, "valeur": float(form.cleaned_data[propriete.slug])})
         if mat is not None:
             mat.nom = nom
             mat.ss_famille = ss_famille

@@ -47,7 +47,7 @@ class Materiau(models.Model):
         qr.add_data(settings.SITE_URL + self.get_absolute_url())
         path = settings.MEDIA_URL + 'materiaux/' + self.slug + ".jpg"
         qr.make_image().save("." + path)
-        self.qrcode = path
+        self.qrcode = 'materiaux/' + self.slug + ".jpg"
         super().save()
 
     def get_absolute_url(self):
