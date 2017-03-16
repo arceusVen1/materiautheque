@@ -43,11 +43,18 @@ class Materiau(models.Model):
                 self.id = 0
         self.slug += str(self.id)
         import qrcode
+        import os
+        path = os.path.join(settings.MEDIA_ROOT, "materiaux/" + self.slug)
+        try:
+
+            os.makedirs(path)
+        except OSError:
+            pass
         qr = qrcode.QRCode(version=20, error_correction=qrcode.constants.ERROR_CORRECT_L)
         qr.add_data(settings.SITE_URL + self.get_absolute_url())
-        path = settings.MEDIA_URL + 'materiaux/' + self.slug + ".jpg"
-        qr.make_image().save("." + path)
-        self.qrcode = 'materiaux/' + self.slug + ".jpg"
+        path = os.path.join(path, self.slug +".jpg")
+        qr.make_image().save(path)
+        self.qrcode = "materiaux/{}/{}.jpg".format(self.slug, self.slug)
         super().save()
 
     def get_absolute_url(self):
