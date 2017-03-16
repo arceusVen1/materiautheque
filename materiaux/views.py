@@ -51,8 +51,11 @@ def show_materiau(request, slug):
         mat = Materiau.objects.get(slug=slug)
         proprietes = mat.get_proprietes()
         for i in range(len(proprietes)):
-            prop = Propriete.objects.get(id=proprietes[i]["id"])
-            proprietes[i]["slug"] = prop.slug
+            try:
+                prop = Propriete.objects.get(id=proprietes[i]["id"])
+                proprietes[i]["slug"] = prop.slug
+            except Propriete.DoesNotExist:
+                del proprietes[i]
     except Materiau.DoesNotExist:
         raise Http404("La référence de l'objet n'existe pas")
     return render(request, "materiaux/materiaux_show.html", {'mat': mat, "proprietes": proprietes})
