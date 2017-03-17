@@ -133,6 +133,22 @@ def generate_pdf_materiau(request, slug):
             'materiaux/materiaux_show.html', {'mat': mat, "proprietes": proprietes}
         )
 
+def generate_pdf_materiau(request, slug):
+    """
+    Permet la génération du pdf
+    """
+    try:
+        mat = Materiau.objects.get(slug=slug)
+        proprietes = mat.get_proprietes()
+        for i in range(len(proprietes)):
+            prop = Propriete.objects.get(id=proprietes[i]["id"])
+            proprietes[i]["slug"] = prop.slug
+    except Materiau.DoesNotExist:
+        raise Http404("La référence de l'objet n'existe pas")
+    return render_to_pdf(
+            'materiaux/materiaux_show.html', {'mat': mat, "proprietes": proprietes}
+        )
+
 
 # end Materiaux section-------------------------------------------------------------------------------------------------
 
