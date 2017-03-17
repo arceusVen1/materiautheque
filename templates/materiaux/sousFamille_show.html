@@ -6,6 +6,12 @@
 </head>
 <body>
         {{ ss_fam.famille }}
+        <br>
         {{ ss_fam.usage }}
+        <br>
+        <a href="{% url 'edit_sousFamille_path' ss_fam.reference %}">Editer</a>
+        <br>
+        <a href="{% url 'delete_sousFamille_path' ss_fam.reference%}">Supprimer</a>
+        <br>
 </body>
 </html>

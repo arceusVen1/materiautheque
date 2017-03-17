@@ -6,6 +6,12 @@
 </head>
 <body>
         {{ famille.matiere }}
+        <br>
         {{ famille.abrege }}
+        <br>
+        <a href="{% url 'edit_famille_path' famille.abrege %}">Editer</a>
+        <br>
+        <a href="{% url 'delete_famille_path' famille.abrege %}">Supprimer</a>
+        <br>
 </body>
 </html>
