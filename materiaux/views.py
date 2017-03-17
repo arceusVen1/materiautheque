@@ -70,7 +70,7 @@ def create_or_edit_materiau(request, slug=None):
         except Materiau.DoesNotExist:
             raise Http404("la référence de l'objet n'existe pas")
     initial = {}
-    template ='materiaux/materiau_create.html'
+    template = 'materiaux/materiau_create.html'
     if mat is not None:
         initial = dict(nom=mat.nom, ss_famille=mat.ss_famille, fournisseur=mat.fournisseur, normatif=mat.normatif,
                        disponible=mat.disponible)
@@ -101,7 +101,8 @@ def create_or_edit_materiau(request, slug=None):
             mat.normatif = normatif
             mat.disponible = disponible
         else:
-            mat = Materiau(nom=nom, ss_famille=ss_famille, fournisseur=fournisseur, normatif=normatif, disponible=disponible)
+            mat = Materiau(nom=nom, ss_famille=ss_famille, fournisseur=fournisseur, normatif=normatif,
+                           disponible=disponible)
         mat.set_proprietes(proprietes)
         mat.save()
         return HttpResponseRedirect(reverse('materiau_path', args=[mat.slug]))
@@ -114,6 +115,7 @@ class DeleteMateriau(DeleteView):
     """
     model = Materiau
     success_url = reverse_lazy('materiaux_path')
+
 
 def generate_pdf_materiau(request, slug):
     """
@@ -180,6 +182,7 @@ class UpdateSousFamille(UpdateView):
     fields = ['matiere', 'famille']
     template_name_suffix = "_update"
 
+
 class DeleteSousFamille(DeleteView):
     """
     Permet la suppression d'un matériau de manière générique
@@ -191,9 +194,11 @@ class DeleteSousFamille(DeleteView):
 
 # start Famille section-------------------------------------------------------------------------------------------------
 
+
 def famille_index(request):
     familles = Famille.objects.all()
     return render(request, 'materiaux/famille_index.html', {'familles': familles})
+
 
 def show_famille(request, pk):
     """
