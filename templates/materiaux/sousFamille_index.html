@@ -7,7 +7,7 @@
 <body>
     <h2><a href="{% url 'new_sousFamille_path' %}">Nouveau</a></h2>
 {% for ss_fam in ss_fams %}
-    <a href="{% url 'sousFamille_path' pk=ss_fam.reference %}">{{ ss_fam.reference }}</a>
+    <a href="{% url 'sousFamille_path' slug=ss_fam.slug %}">{{ ss_fam.slug }}</a>
 {% endfor %}
 
 </body>

@@ -145,20 +145,20 @@ def sousFamille_index(request):
     return render(request, 'materiaux/sousFamille_index.html', {'ss_fams': ss_fams})
 
 
-def show_sousFamille(request, pk):
+def show_sousFamille(request, slug):
     """
     Retourne une sous-famille à la vue selon la référence
 
     :param request: the request
     :type request: HttpRequest
-    :param pk: la référence de la sousfamille (SS-00)
-    :type pk: str
+    :param slug: la référence de la sousfamille (SS-00)
+    :type slug: str
     :return: materiau/materiaux_show.html
 
     :raises Http404: si la sousfamille n'existe pas
     """
     try:
-        ss_fam = SousFamille.objects.get(reference=pk)
+        ss_fam = SousFamille.objects.get(slug=slug)
     except SousFamille.DoesNotExist:
         raise Http404("La référence de la sous-famille n'existe pas")
     return render(request, "materiaux/sousFamille_show.html", {'ss_fam': ss_fam})
@@ -200,20 +200,20 @@ def famille_index(request):
     return render(request, 'materiaux/famille_index.html', {'familles': familles})
 
 
-def show_famille(request, pk):
+def show_famille(request, slug):
     """
     Retourne une sous-famille à la vue selon la référence
 
     :param request: the request
     :type request: HttpRequest
-    :param pk: la référence de la sousfamille (SS-00)
-    :type pk: str
+    :param slug: la référence de la sousfamille (SS-00)
+    :type slug: str
     :return: materiau/materiaux_show.html
 
     :raises Http404: si la sousfamille n'existe pas
     """
     try:
-        famille = Famille.objects.get(abrege=pk)
+        famille = Famille.objects.get(slug=slug)
     except Famille.DoesNotExist:
         raise Http404("La référence de la famille n'existe pas")
     return render(request, "materiaux/famille_show.html", {'famille': famille})
@@ -224,7 +224,7 @@ class CreateFamille(CreateView):
     Permet la création d'un matériau de manière générique
     """
     model = Famille
-    fields = ['matiere', 'abrege']
+    fields = ['matiere', 'slug']
     template_name_suffix = "_create"
 
 
@@ -234,7 +234,7 @@ class UpdateFamille(UpdateView):
     Inclut dans les urls par la méthode as_view()
     """
     model = Famille
-    fields = ['matiere', 'abrege']
+    fields = ['matiere', 'slug']
     template_name_suffix = "_update"
 
 

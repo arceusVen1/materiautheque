@@ -57,7 +57,7 @@ class Materiau(models.Model):
              update_fields=None):
         tampon = self.slug
         self.famille = self.ss_famille.famille
-        self.slug = "MAT" + "-" + self.ss_famille.reference + "-"
+        self.slug = "MAT" + "-" + self.ss_famille.slug + "-"
         if self.id is None:
             try:
                 last = Materiau.objects.last()
@@ -86,38 +86,44 @@ class Materiau(models.Model):
 class Famille(models.Model):
 
     matiere = models.CharField(max_length=255)
-    abrege = models.CharField(max_length=4, primary_key=True)
+    slug = models.CharField(max_length=4, unique=True)
 
-
-
-    # abrege auto build ?
+    # slug auto build ?
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        self.abrege = self.abrege.upper()
-        return super().save()
+        self.slug = self.slug.upper()
+        for ss_fam in self.sousfamille_set.all():
+            ss_fam.save()
+        super().save()
 
     def get_absolute_url(self):
-        return u'/materiaux/famille/{}'.format(self.abrege)
+        return u'/materiaux/famille/{}'.format(self.slug)
 
     def __str__(self):
-        return '{} - {}'.format(self.abrege, self.matiere)
+        return '{} - {}'.format(self.slug, self.matiere)
 
 
 class SousFamille(models.Model):
 
-    reference = models.CharField(max_length=6, primary_key=True)
+    slug = models.CharField(max_length=6, unique=True)
     matiere = models.CharField(max_length=255)
     numero = models.IntegerField()
     famille = models.ForeignKey('Famille')
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        self.numero = self.famille.sousfamille_set.count()
-        self.reference = self.famille.abrege + "-" + str(self.numero)
+        try:
+            self.famille.sousfamille_set.get(id=self.id)
+            self.numero = self.famille.sousfamille_set.count()
+        except Famille.DoesNotExist:
+            pass
+        self.slug = self.famille.slug + "-" + str(self.numero)
+        for materiau in self.materiau_set.all():
+            materiau.save()
         super().save()
 
     def get_absolute_url(self):
-        return u'/materiaux/sous-famille/{}'.format(self.reference)
+        return u'/materiaux/sous-famille/{}'.format(self.slug)
 
     def __str__(self):
-        return '{} - {}'.format(self.reference, self.matiere)
+        return '{} - {}'.format(self.slug, self.matiere)

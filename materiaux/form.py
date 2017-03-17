@@ -6,10 +6,10 @@ class MateriauForm(forms.Form):
 
 
     nom = forms.CharField(max_length=255, label="Nom Générique")
-    ss_famille = forms.ModelChoiceField(label="Sous-familles", queryset=SousFamille.objects.all())
+    ss_famille = forms.ModelChoiceField(label="Sous-familles", queryset=SousFamille.objects.all().order_by('famille__slug'))
     fournisseur = forms.CharField(max_length=255, label="Fournisseur", initial="N.R.")
     normatif = forms.CharField(max_length=255, label="Critère normatif", initial="N.R.")
-    disponible = forms.BooleanField(label="Objet disponible")
+    disponible = forms.BooleanField(label="Objet disponible", required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args,**kwargs)

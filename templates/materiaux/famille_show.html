@@ -7,11 +7,11 @@
 <body>
         {{ famille.matiere }}
         <br>
-        {{ famille.abrege }}
+        {{ famille.slug }}
         <br>
-        <a href="{% url 'edit_famille_path' famille.abrege %}">Editer</a>
+        <a href="{% url 'edit_famille_path' famille.slug %}">Editer</a>
         <br>
-        <a href="{% url 'delete_famille_path' famille.abrege %}">Supprimer</a>
+        <a href="{% url 'delete_famille_path' famille.slug %}">Supprimer</a>
         <br>
 </body>
 </html>

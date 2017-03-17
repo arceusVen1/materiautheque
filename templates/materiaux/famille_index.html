@@ -7,7 +7,7 @@
 <body>
 <h2><a href="{% url 'new_famille_path' %}">Nouveau</a></h2>
 {% for famille in familles %}
-    <a href="{% url 'famille_path' pk=famille.abrege %}">{{ famille.abrege }}</a>
+    <a href="{% url 'famille_path' slug=famille.slug %}">{{ famille.slug }}</a>
 {% endfor %}
 
 </body>
