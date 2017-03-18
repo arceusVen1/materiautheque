@@ -3,7 +3,6 @@ from django.conf import settings
 import json
 import os
 
-
 # Create your models here.
 class Materiau(models.Model):
 
@@ -127,3 +126,18 @@ class SousFamille(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.slug, self.matiere)
+
+
+class Image(models.Model):
+    slug = models.SlugField(max_length=255, unique=True)
+    imagefile = models.ImageField(upload_to='materiaux/{}'.format(self.Materiau), blank=True)
+    materiau = models.ForeignKey('Materiau')
+    famille = models.ForeignKey('Famille', null=True)
+    sousfamille = models.ForeignKey('SousFamille', null=True)
+
+    def save(self, *args, **kwargs):
+        # INFO Checks if present because admins have option to change slug
+        if not self.slug:
+            slug_str = '%s' % self.slug
+            unique_slugify(self, slug_str)
+        super(Image, self).save(*args, **kwargs)

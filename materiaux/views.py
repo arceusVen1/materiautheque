@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.http import Http404, HttpResponseRedirect
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
-from materiaux.models import Materiau, Famille, SousFamille
+from materiaux.models import Materiau, Famille, SousFamille, Image
 from materiaux.form import MateriauForm
 from propriete.models import Propriete
 from io import BytesIO
@@ -81,7 +81,7 @@ def create_or_edit_materiau(request, slug=None):
             except Propriete.DoesNotExist:
                 pass
         template = 'materiaux/materiau_update.html'
-    form = MateriauForm(request.POST or None, initial=initial)
+    form = MateriauForm(request.POST or None, request.FILES, initial=initial)
     if form.is_valid():
         proprietes = []
         nom = form.cleaned_data["nom"]
@@ -89,6 +89,7 @@ def create_or_edit_materiau(request, slug=None):
         fournisseur = form.cleaned_data["fournisseur"]
         normatif = form.cleaned_data["normatif"]
         disponible = form.cleaned_data["disponible"]
+        image = form.cleaned_data["image"]
         for propriete in Propriete.objects.all():
             if form.cleaned_data[propriete.slug] is None:
                 proprietes.append({"id": propriete.id, "valeur": -1})
@@ -100,9 +101,11 @@ def create_or_edit_materiau(request, slug=None):
             mat.fournisseur = fournisseur
             mat.normatif = normatif
             mat.disponible = disponible
+            mat.image = image
         else:
             mat = Materiau(nom=nom, ss_famille=ss_famille, fournisseur=fournisseur, normatif=normatif,
                            disponible=disponible)
+            mat.image_set.add(image)
         mat.set_proprietes(proprietes)
         mat.save()
         return HttpResponseRedirect(reverse('materiau_path', args=[mat.slug]))
