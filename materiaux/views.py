@@ -31,6 +31,14 @@ def render_to_pdf(template_src, context_dict):
 # Materiaux section ----------------------------------------------------------------------------------------------------
 
 def index(request):
+    """
+    Retourne la liste complètes des matériaux
+
+    :param request: La requête du client
+    :type request: HttpRequest
+    :return: le template associé à la liste des matériaux
+    :rtype: HttpResponse
+    """
     materiaux = Materiau.objects.all()
     return render(request, 'materiaux/materiaux_index.html', {'materiaux': materiaux})
 
@@ -39,11 +47,12 @@ def show_materiau(request, slug):
     """
     Retourne un materiau à la vue selon la référence
 
-    :param request: the request
+    :param request: La requête client
     :type request: HttpRequest
     :param slug: la référence du matériau (MAT-FA-SS-ID)
     :type slug: str
-    :return: materiau/materiaux_show.html
+    :return: le template associé à un matériaux
+    :rtype: HttpResponse
 
     :raises Http404: si le materiau n'existe pas
     """
@@ -63,6 +72,19 @@ def show_materiau(request, slug):
 
 
 def create_or_edit_materiau(request, slug=None):
+    """
+    Permet la création ou l'édition d'un matériau.
+    Si une référence de matériau est passé à la vue ce dernier est récupéré et ses valeurs initiale sont chargées
+    dans le formulaire d'édition. Les valeurs par défaut des prorpiétés est mis à -1. Cette valeur est prise par défaut
+    et permet de comprendre son non-traitement nécessaire lors de la vue d'affichage du matériau
+
+    :param request: La requête client
+    :type request: HttpRequest
+    :param slug: (optionnel) La référence du matériau dans le cas d'une édition
+    :type slug: str
+    :return: Le template associé au formulaire de création ou d'édition d'un matériau
+    :rtype: HttpResponse
+    """
     mat = None
     if slug is not None:
         try:
@@ -116,22 +138,6 @@ class DeleteMateriau(DeleteView):
     model = Materiau
     success_url = reverse_lazy('materiaux_path')
 
-
-def generate_pdf_materiau(request, slug):
-    """
-    Permet la génération du pdf
-    """
-    try:
-        mat = Materiau.objects.get(slug=slug)
-        proprietes = mat.get_proprietes()
-        for i in range(len(proprietes)):
-            prop = Propriete.objects.get(id=proprietes[i]["id"])
-            proprietes[i]["slug"] = prop.slug
-    except Materiau.DoesNotExist:
-        raise Http404("La référence de l'objet n'existe pas")
-    return render_to_pdf(
-            'materiaux/materiaux_show.html', {'mat': mat, "proprietes": proprietes}
-        )
 
 def generate_pdf_materiau(request, slug):
     """

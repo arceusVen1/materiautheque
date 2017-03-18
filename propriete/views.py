@@ -15,6 +15,17 @@ from html import escape
 # PDF rendering section ------------------------------------------------------------------------------------------------
 
 def render_to_pdf(template_src, context_dict):
+    """
+    Permet la génération d'un pdf en construisant un template grâce à un dictionnaire des données
+    nécessaires à sa création.
+
+    :param template_src: le template a construire en pdf
+    :type template_src: template
+    :param context_dict: les données utile à la construction du template
+    :type context_dict: dict
+    :return: le fichier pdf ou reponse d'erreur
+    :rtype: HttpResponse
+    """
     template = get_template(template_src)
     context = Context(context_dict)
     html = template.render(context)
@@ -29,21 +40,29 @@ def render_to_pdf(template_src, context_dict):
 
 
 def index(request):
+    """
+    Retournes la liste complètes des propriétés et leurs définition
+
+    :param request: requête du client
+    :type request: HttpRequest
+    :return: la liste des propriétés
+    :rtype: HttpResponse
+    """
     proprietes = Propriete.objects.all()
     return render(request, "propriete/index.html", {'proprietes': proprietes})
 
 
 def show_propriete(request, slug):
     """
-    Retourne un materiau à la vue selon la référence
+    Retourne une propriété à la vue selon sa référence
 
-    :param request: the request
+    :param request: la requête client
     :type request: HttpRequest
-    :param slug: le nom de la proprietes
+    :param slug: la référence de la proprietes
     :type slug: str
     :return: proprietes/show.html
 
-    :raises Http404: si le materiau n'existe pas
+    :raises Http404: si lea propritété n'existe pas n'existe pas
     """
     try:
         prop = Propriete.objects.get(slug=slug)
@@ -54,8 +73,8 @@ def show_propriete(request, slug):
 
 class UpdatePropriete(UpdateView):
     """
-    Permet la mise à jour d'une proprietes via le template propriete_form.html
-    Inclu dans les urls par la méthode as_view()
+    Permet la mise à jour d'une propriete via le template propriete_form.html
+    Inclus dans les urls par la méthode as_view()
     """
     model = Propriete
     fields = ['slug', 'unite', 'definition']
@@ -63,7 +82,7 @@ class UpdatePropriete(UpdateView):
 
 class CreatePropriete(CreateView):
     """
-    Permet la création d'une proriete de manière générique
+    Permet la création d'une proriété de manière générique
     """
     model = Propriete
     fields = ['slug', 'unite', 'definition']
@@ -78,7 +97,14 @@ class DeletePropriete(DeleteView):
 
 def GeneratePDFPropriete(request, slug):
     """
-    Permet la génération du pdf
+    Permet la génération du pdf concernant une propriété
+
+    :param request: la requête client
+    :type request: HttpRequest
+    :param slug: la référence de la propriété
+    :type slug: str
+    :return: fonction de génération de pdf render_to_pdf
+    :rtype: HttpResponse
     """
     try:
         prop = Propriete.objects.get(slug=slug)
