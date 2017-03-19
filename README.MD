@@ -1,4 +1,4 @@
-#Mathériauthèque du Lycée Georges Brassens
+# Mathériauthèque du Lycée Georges Brassens
 
 Le but de ce projet est de permettre la création d'une matériauthèque modulaire et responsive 
 permettant la gestion de différents matériaux et composites.
@@ -22,7 +22,7 @@ $ easy_install pypdf
 $ python manage.py runserver
 ```
 
-##Matériau Update : 19 Mars 2017
+## Matériau Update : 19 Mars 2017
 
 * Base de données des familles, sous-familles, matériaux, propriétés et photos
 * Fonctions de création, édition, suppression pour tout les modèles avec les effets cascade pour les dépendances
