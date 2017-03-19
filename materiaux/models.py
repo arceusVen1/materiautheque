@@ -113,9 +113,8 @@ class SousFamille(models.Model):
              update_fields=None):
         try:
             self.famille.sousfamille_set.get(id=self.id)
+        except SousFamille.DoesNotExist:
             self.numero = self.famille.sousfamille_set.count()
-        except Famille.DoesNotExist:
-            pass
         self.slug = self.famille.slug + "-" + str(self.numero)
         for materiau in self.materiau_set.all():
             materiau.save()
