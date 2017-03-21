@@ -127,16 +127,13 @@ class SousFamille(models.Model):
         return '{} - {}'.format(self.slug, self.matiere)
 
 
-class Image(models.Model):
-    slug = models.SlugField(max_length=255, unique=True)
-    imagefile = models.ImageField(upload_to='materiaux/{}'.format(self.Materiau), blank=True)
-    materiau = models.ForeignKey('Materiau')
-    famille = models.ForeignKey('Famille', null=True)
-    sousfamille = models.ForeignKey('SousFamille', null=True)
+def image_file_name(instance, filename):
+    return "materiaux/{}/{}".format(instance.materiau.slug,filename)
 
-    def save(self, *args, **kwargs):
-        # INFO Checks if present because admins have option to change slug
-        if not self.slug:
-            slug_str = '%s' % self.slug
-            unique_slugify(self, slug_str)
-        super(Image, self).save(*args, **kwargs)
+
+class Image(models.Model):
+    imagefile = models.ImageField(upload_to=image_file_name, blank=True, verbose_name='Image')
+    materiau = models.ForeignKey('Materiau')
+
+    def save(self):
+        super(Image, self).save()

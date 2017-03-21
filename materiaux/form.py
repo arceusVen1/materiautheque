@@ -1,5 +1,5 @@
 from django import forms
-from materiaux.models import SousFamille, Image
+from materiaux.models import SousFamille, Image, Materiau
 from propriete.models import Propriete
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
@@ -12,13 +12,19 @@ class MateriauForm(forms.Form):
     fournisseur = forms.CharField(max_length=255, label="Fournisseur", initial="N.R.")
     normatif = forms.CharField(max_length=255, label="Critère normatif", initial="N.R.")
     disponible = forms.BooleanField(label="Objet disponible", required=False)
-    image = forms.ImageField(label='Sélectionner une image', help_text='Maximum. 50 MB', required=False)
-
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args,**kwargs)
         for propriete in Propriete.objects.all():
             self.fields[propriete.slug] = forms.FloatField(label=str(propriete.slug), required=False)
+
+
+class ImageForm(forms.ModelForm):
+
+    class Meta:
+
+        model = Image
+        exclude = ["slug"]
 
     def clean_content(self):
         content = self.cleaned_data['image']

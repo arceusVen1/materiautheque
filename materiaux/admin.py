@@ -4,3 +4,4 @@ from materiaux.models import *
 admin.site.register(Materiau)
 admin.site.register(Famille)
 admin.site.register(SousFamille)
+admin.site.register(Image)

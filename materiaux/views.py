@@ -3,7 +3,7 @@ from django.urls import reverse_lazy, reverse
 from django.http import Http404, HttpResponseRedirect
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from materiaux.models import Materiau, Famille, SousFamille, Image
-from materiaux.form import MateriauForm
+from materiaux.form import MateriauForm, ImageForm
 from propriete.models import Propriete
 from io import BytesIO
 from xhtml2pdf import pisa
@@ -111,7 +111,6 @@ def create_or_edit_materiau(request, slug=None):
         fournisseur = form.cleaned_data["fournisseur"]
         normatif = form.cleaned_data["normatif"]
         disponible = form.cleaned_data["disponible"]
-        image = form.cleaned_data["image"]
         for propriete in Propriete.objects.all():
             if form.cleaned_data[propriete.slug] is None:
                 proprietes.append({"id": propriete.id, "valeur": -1})
@@ -123,11 +122,9 @@ def create_or_edit_materiau(request, slug=None):
             mat.fournisseur = fournisseur
             mat.normatif = normatif
             mat.disponible = disponible
-            mat.image = image
         else:
             mat = Materiau(nom=nom, ss_famille=ss_famille, fournisseur=fournisseur, normatif=normatif,
                            disponible=disponible)
-            mat.image_set.add(image)
         mat.set_proprietes(proprietes)
         mat.save()
         return HttpResponseRedirect(reverse('materiau_path', args=[mat.slug]))
@@ -157,6 +154,26 @@ def generate_pdf_materiau(request, slug):
     return render_to_pdf(
             'materiaux/materiaux_show.html', {'mat': mat, "proprietes": proprietes}
         )
+
+
+def add_image_materiau(request):
+    form = ImageForm(request.POST or None)
+    if form.is_valid():
+        image = form.save()
+        return HttpResponseRedirect(reverse('image_path', args=[image.id]))
+    return render(request, 'materiaux/materiau_add_image.html', locals())
+
+
+def show_image(request, id):
+    try:
+        image = Image.objects.get(id=id)
+    except Image.DoesNotExist:
+        raise Http404("La référence de l'image n'existe pas")
+    return render(request, "materiaux/image_show.html", {'image' : image})
+
+
+
+
 
 
 # end Materiaux section-------------------------------------------------------------------------------------------------
