@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>test</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
+
     <h2><a href="{% url 'new_propriete_path' %}">Nouveau</a></h2>
 {% for propriete in proprietes %}
     <a href="{% url 'propriete_path' slug=propriete.slug %}">{{ propriete.slug }}</a>
 {% endfor %}
 
-</body>
-</html>
+{% endblock content %}

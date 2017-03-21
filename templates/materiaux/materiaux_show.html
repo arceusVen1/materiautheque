@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
+
         {{ mat.famille }}
         {{ mat.usage }}
         <img src="{{ mat.qrcode.url }}" alt="qrcode" width="300">
@@ -20,5 +17,4 @@
         <br>
         <input type="button" value="Générer PDF" OnClick="window.location.href='{{ request.path }}generatePDF'" />
 
-</body>
-</html>
+{% endblock content %}
