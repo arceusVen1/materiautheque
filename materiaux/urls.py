@@ -5,8 +5,8 @@ from materiaux.models import Materiau, SousFamille, Famille
 urlpatterns = [
     url(r'^$', views.index, name='materiaux_path'),
     url(r'^nouveau/$', views.create_or_edit_materiau, name='new_materiau_path'),
-    url(r'^showimage/(?P<id>\d+)/$', views.show_image, name='image_path'),
-    url(r'^addimage/$', views.add_image_materiau, name='new_image_path'),
+    url(r'^images/(?P<id>\d+)/$', views.show_image, name='image_path'),
+    url(r'^images/ajouter$', views.add_image, name='new_image_path'),
     url(r'^(?P<slug>MAT-\w{2}-\d+-\d+)/$', views.show_materiau, name='materiau_path'),
     url(r'^(?P<slug>MAT-\w{2}-\d+-\d+)/edit/$', views.create_or_edit_materiau, name='edit_materiau_path'),
     url(r'^(?P<slug>MAT-\w{2}-\d+-\d+)/delete/$', views.DeleteMateriau.as_view(model=Materiau), name='delete_materiau_path'),

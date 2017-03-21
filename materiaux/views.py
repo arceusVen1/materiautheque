@@ -156,8 +156,8 @@ def generate_pdf_materiau(request, slug):
         )
 
 
-def add_image_materiau(request):
-    form = ImageForm(request.POST or None)
+def add_image(request):
+    form = ImageForm(request.POST or None, request.FILES)
     if form.is_valid():
         image = form.save()
         return HttpResponseRedirect(reverse('image_path', args=[image.id]))

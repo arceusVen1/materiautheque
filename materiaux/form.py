@@ -24,7 +24,7 @@ class ImageForm(forms.ModelForm):
     class Meta:
 
         model = Image
-        exclude = ["slug"]
+        exclude = []
 
     def clean_content(self):
         content = self.cleaned_data['image']
