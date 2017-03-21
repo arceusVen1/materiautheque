@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2><a href="{% url 'new_materiau_path' %}">Nouveau</a></h2>
+{% for materiau in materiaux %}
+    <a href="{% url 'materiau_path' slug=materiau.slug %}">{{ materiau.slug }}</a>
+{% endfor %}
+
+{% endblock content %}
