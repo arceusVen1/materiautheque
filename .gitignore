@@ -1,1 +1,24 @@
-.idea/*
+;; 2013.01.21
+;; yasushisakai
+;;
+;; gitignore for Django using pyCharm
+
+
+;;files to ignore
+;;settings.py
+pip-selfcheck.json
+.Python
+
+;;extensions to ignore
+*.log
+*.pot
+*.pyc
+*.xml
+
+;;directories to ignore
+.idea/
+.DS_Store/
+lib/
+bin/
+share/
+include/
