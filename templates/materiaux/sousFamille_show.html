@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
+
         {{ ss_fam.famille }}
         <br>
         {{ ss_fam.matiere }}
@@ -13,5 +10,5 @@
         <br>
         <a href="{% url 'delete_sousFamille_path' ss_fam.slug %}">Supprimer</a>
         <br>
-</body>
-</html>
+
+{% endblock content %}

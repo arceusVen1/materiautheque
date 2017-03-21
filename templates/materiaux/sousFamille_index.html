@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>test</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
+
     <h2><a href="{% url 'new_sousFamille_path' %}">Nouveau</a></h2>
 {% for ss_fam in ss_fams %}
     <a href="{% url 'sousFamille_path' slug=ss_fam.slug %}">{{ ss_fam.slug }}</a>
 {% endfor %}
 
-</body>
-</html>
+{% endblock content %}

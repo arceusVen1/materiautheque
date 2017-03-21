@@ -1,9 +1,6 @@
-{% load staticfiles %}
-<html>
-    <head>
-        <title>Titre</title>
-    </head>
-    <body>
+{% extends 'base.html' %}
+
+{% block content %}
         <div>
             <h1><a href="">Matériauthèque</a></h1>
             <br>
@@ -18,24 +15,4 @@
         <div>
             <h2><a href="{% url "proprietes_path" %}">Propriété</a></h2>
         </div>
-        <div>
-            <h2>Dernières matériaux entrés :</h2>
-            {% for mat in last_matx %}
-                <a href="{% url 'materiau_path' mat.slug %}">{{ mat.nom }}</a>
-                <br>
-            {% endfor %}
-        </div>
-        <div>
-            <form action="" method="post">
-                {% csrf_token %}
-                {% for field in form %}
-                    {{ field.label_tag }}
-                    <br>
-                    {{ field }}
-                    <br>
-                {% endfor %}
-                <input type="submit" value="enregistrer">
-            </form>
-        </div>
-    </body>
-</html>
+{% endblock content %}

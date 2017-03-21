@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
+
     <h1>Enregistrer un nouveau matériau</h1>
     <br>
     {% include "materiaux/_form.html" %}
-</body>
-</html>
+
+{% endblock content %}

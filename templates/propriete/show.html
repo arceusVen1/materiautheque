@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
+
         {{ prop.slug }}
         <br>
         {{ prop.unite }}
@@ -16,5 +13,5 @@
         <a href="{% url 'delete_propriete_path' prop.slug %}">Supprimer</a>
         <br>
         <input type="button" value="Générer PDF" OnClick="window.location.href='{{ request.path }}generatePDF'" />
-</body>
-</html>
+
+{% endblock content %}
