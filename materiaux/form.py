@@ -14,7 +14,7 @@ class MateriauForm(forms.Form):
     disponible = forms.BooleanField(label="Objet disponible", required=False)
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args,**kwargs)
+        super().__init__(*args, **kwargs)
         for propriete in Propriete.objects.all():
             self.fields[propriete.slug] = forms.FloatField(label=str(propriete.slug), required=False)
 

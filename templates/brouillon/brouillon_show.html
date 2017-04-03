@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+        {{ mat.famille }}
+        {{ mat.usage }}
+        {% for propriete in proprietes %}
+            {% if propriete.valeur != -1 %}
+                <p><a href="{% url 'propriete_path' propriete.slug %}">{{ propriete.slug }}</a> : {{ propriete.valeur }} {{ propriete.unite }}</p>
+                <br>
+            {% endif %}
+        {% endfor %}
+        <a href="{% url 'edit_brouillon_path' mat.slug %}">Editer</a>
+        <br>
+        <a href="{% url 'delete_brouillon_path' mat.slug%}">Supprimer</a>
+        <br>
+        <a href={% url "to_materiau_path" mat.slug %}><button class="btn-sm btn-info">Publier</button></a>
+
+{% endblock content %}

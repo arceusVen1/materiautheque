@@ -68,7 +68,8 @@ def show_materiau(request, slug):
                 del proprietes[i]
     except Materiau.DoesNotExist:
         raise Http404("La référence de l'objet n'existe pas")
-    return render(request, "materiaux/materiaux_show.html", {'mat': mat, "proprietes": proprietes})
+    return render(request, "materiaux/materiaux_show.html", {'mat': mat, "proprietes": proprietes,
+                                                             "images": mat.image_set.all()})
 
 
 def create_or_edit_materiau(request, slug=None):
@@ -103,7 +104,7 @@ def create_or_edit_materiau(request, slug=None):
             except Propriete.DoesNotExist:
                 pass
         template = 'materiaux/materiau_update.html'
-    form = MateriauForm(request.POST or None, request.FILES, initial=initial)
+    form = MateriauForm(request.POST or None, initial=initial)
     if form.is_valid():
         proprietes = []
         nom = form.cleaned_data["nom"]
@@ -128,7 +129,7 @@ def create_or_edit_materiau(request, slug=None):
         mat.set_proprietes(proprietes)
         mat.save()
         return HttpResponseRedirect(reverse('materiau_path', args=[mat.slug]))
-    return render(request, template, {'form': form})
+    return render(request, template, {'object': mat, 'form': form})
 
 
 class DeleteMateriau(DeleteView):

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2>Index des brouillons</h2>
+{% for brouillon in brouillons %}
+    <a href="{% url 'brouillon_path' slug=brouillon.slug %}">{{ brouillon.slug }}</a>
+    <br />
+{% endfor %}
+    <br>
+    <br>
+    <a href={% url 'new_brouillon_path' %}><button class="btn-sm btn-info">Nouveau</button></a>
+
+{% endblock content %}
