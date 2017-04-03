@@ -17,7 +17,7 @@
             {% if forloop.counter0|divisibleby:2 %}
                 <tr>
             {% endif %}
-            <td><a href="{{ image.imagefile.url }}"><div class="imagethumbnail"><img src="{{ image.imagefile.url }}" alt="image"></div></a></td>
+            <td><a href="{{ image.imagefile.url }}"><div class="imagethumbnail col-sm-3"><img src="{{ image.imagefile.url }}" alt="image"></div></a></td>
             {% if forloop.counter|divisibleby:2 or forloop.last %}
                 </tr>
             {% endif %}
