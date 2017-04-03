@@ -133,7 +133,7 @@ def image_file_name(instance, filename):
 
 class Image(models.Model):
 
-    legende = models.CharField(max_length=255, verbose_name="Légende")
+    legende = models.CharField(max_length=255, verbose_name="Légende", default="")
     imagefile = models.ImageField(upload_to=image_file_name, blank=True, verbose_name='Image')
     materiau = models.ForeignKey('Materiau', verbose_name="Matériau associé")
 
