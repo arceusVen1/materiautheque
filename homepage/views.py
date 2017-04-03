@@ -10,7 +10,7 @@ def home(request):
     search_form = SearchForm(request.POST or None)
     if search_form.is_valid():
         materiaux_criteria = search_form.cleaned_data["materiaux"]
-        criteria = re.findall(materiaux_criteria)
+        criteria = regexp.findall(materiaux_criteria)
         materiaux = []
         for crit in criteria:
             materiaux += Materiau.objects.filter(nom__contains=crit)
