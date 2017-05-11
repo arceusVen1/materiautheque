@@ -1,12 +1,14 @@
 from django.conf.urls import url
 from materiaux import views
-from materiaux.models import Materiau, SousFamille, Famille
+from materiaux.models import *
 
 urlpatterns = [
     url(r'^$', views.index, name='materiaux_path'),
     url(r'^nouveau/$', views.create_or_edit_materiau, name='new_materiau_path'),
     url(r'^images/(?P<id>\d+)/$', views.show_image, name='image_path'),
     url(r'^images/ajouter$', views.add_image, name='new_image_path'),
+    url(r'^images/ajouter/(?P<slug>MAT-\w{2}-\d+-\d+)$', views.add_image, name='new_image_path'),
+    url(r'^images/(?P<id>\d+)/delete/$', views.delete_image, name='delete_image_path'),
     url(r'^(?P<slug>MAT-\w{2}-\d+-\d+)/$', views.show_materiau, name='materiau_path'),
     url(r'^(?P<slug>MAT-\w{2}-\d+-\d+)/edit/$', views.create_or_edit_materiau, name='edit_materiau_path'),
     url(r'^(?P<slug>MAT-\w{2}-\d+-\d+)/delete/$', views.DeleteMateriau.as_view(model=Materiau), name='delete_materiau_path'),

@@ -11,24 +11,19 @@
                 <br>
             {% endif %}
         {% endfor %}
-
-        <table>
-        {% for image in images %}
-            {% if forloop.counter0|divisibleby:2 %}
-                <tr>
-            {% endif %}
-            <td><a href="{{ image.imagefile.url }}"><div class="imagethumbnail col-sm-3"><img src="{{ image.imagefile.url }}" alt="image"></div></a></td>
-            {% if forloop.counter|divisibleby:2 or forloop.last %}
-                </tr>
-            {% endif %}
-        {% endfor %}
-        </table>
+        <div class="row">
+            {% for image in images %}
+                <div class="col-sm-12 col-md-6">
+                    <a href="{% url 'image_path' image.id %}"><div class="imagethumbnail"><img src="{{ image.imagefile.url }}" alt="image"></div></a>
+                </div>
+            {% endfor %}
+        </div>        
         <br>
-        <a href ="{% url 'new_image_path' %}">ajouter une photo</a>
+        <a href ="{% url 'new_image_path' mat.slug %}">ajouter une photo</a>
         <br>
         <a href="{% url 'edit_materiau_path' mat.slug %}">Editer</a>
         <br>
-        <a href="{% url 'delete_materiau_path' mat.slug%}">Supprimer</a>
+        <a href="{% url 'delete_materiau_path' mat.slug %}">Supprimer</a>
         <br>
         <input type="button" value="Générer PDF" OnClick="window.location.href='{{ request.path }}generatePDF'" />
 

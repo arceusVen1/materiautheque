@@ -139,3 +139,7 @@ class Image(models.Model):
 
     def save(self):
         super(Image, self).save()
+
+    def delete(self):
+        os.remove(os.path.join(settings.MEDIA_ROOT, str(self.imagefile)))
+        super().delete()

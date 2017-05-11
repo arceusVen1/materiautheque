@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <img src="{{ image.imagefile.url }}" alt="image">
+		<div class="col-md-12">
+        	<img src="{{ image.imagefile.url }}" alt="image" width="100%">
+		</div>
+		<br>
+		<a href="{% url 'delete_image_path' image.id %}">Supprimer</a>
 
 {% endblock content %}

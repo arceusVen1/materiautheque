@@ -157,8 +157,16 @@ def generate_pdf_materiau(request, slug):
         )
 
 
-def add_image(request):
-    form = ImageForm(request.POST or None, request.FILES)
+def add_image(request, slug=None):
+    if slug is not None:
+        try:
+            mat = Materiau.objects.get(slug=slug)
+            initial = dict(materiau=mat, legende="", imagefile=None)
+        except Materiau.DoesNotExist:
+            raise Http404("la référence de l'objet n'existe pas")
+    else:
+        initial=dict()
+    form = ImageForm(request.POST or None, request.FILES, initial=initial)
     if form.is_valid():
         image = form.save()
         return HttpResponseRedirect(reverse('image_path', args=[image.id]))
@@ -173,7 +181,19 @@ def show_image(request, id):
     return render(request, "materiaux/image_show.html", {'image' : image})
 
 
-
+def delete_image(request, id):
+    """
+    Permet la suppression d'une image de manière générique
+    """
+    try:
+        image = Image.objects.get(id=id)
+        mat = image.materiau
+        image.delete()
+    except Materiau.DoesNotExist:
+        raise Http404("La référence du matériaux n'existe pas")
+    except Image.DoesNotExist:
+        raise Http404("La référence de l'image n'existe pas") 
+    return redirect('materiau_path', slug=mat.slug)
 
 
 
