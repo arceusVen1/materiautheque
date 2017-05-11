@@ -1,0 +1,13 @@
+{% block content %}
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+            {{ field.label_tag }}
+            <br>
+            {{ field }}
+            <br>
+        {% endfor %}
+    <input type="submit" value="Enregistrer" />
+</form>
+
+{% endblock content %}

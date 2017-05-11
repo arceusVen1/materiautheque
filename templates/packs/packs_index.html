@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2><a href="{% url 'new_pack_path' %}">Nouveau</a></h2>
+{% for pack in packs %}
+    <a href="{% url 'pack_path' slug=pack.slug %}">{{ pack.slug }}</a>
+{% endfor %}
+
+{% endblock content %}

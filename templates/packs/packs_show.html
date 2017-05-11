@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+        {{ pack.famille }}
+        {{ pack.usage }}
+        <img src="{{ pack.qrcode.url }}" alt="qrcode" width="300">
+
+        <table>
+        {% for image in images %}
+            {% if forloop.counter0|divisibleby:2 %}
+                <tr>
+            {% endif %}
+            <td><a href="{{ image.imagefile.url }}"><div class="imagethumbnail col-sm-3"><img src="{{ image.imagefile.url }}" alt="image"></div></a></td>
+            {% if forloop.counter|divisibleby:2 or forloop.last %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </table>
+
+        <a href="{% url 'edit_pack_path' pack.slug %}">Editer</a>
+        <br>
+        <a href="{% url 'delete_pack_path' pack.slug%}">Supprimer</a>
+        <br>
+        <input type="button" value="Générer PDF" OnClick="window.location.href='{{ request.path }}generatePDF'" />
+
+{% endblock content %}

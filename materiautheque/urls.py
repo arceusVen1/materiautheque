@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^materiaux/', include ('materiaux.urls')),
     url(r'^brouillon/', include('brouillon.urls')),
     url(r'^propriete/', include ('propriete.urls')),
+    url(r'^packs/', include('packs.urls')),
     url(r'^', include('homepage.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -15,6 +15,15 @@
         <div>
             <h2><a href="{% url "proprietes_path" %}">Propriété</a></h2>
         </div>
+            <div>
+            <h2><a href="{% url "packs_path" %}">Packs</a></h2>
+        </div>
+        <div>
+            <h2><a href="{% url "famillesPack_path" %}">Familles packs</a></h2>
+        </div>
+            <div>
+            <h2><a href="{% url "sousFamillesPack_path" %}">Sous-familles packs</a></h2>
+        </div>
         <div>
             <h2>Dernières matériaux entrés :</h2>
             {% for mat in last_matx %}
