@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'materiaux',
     'propriete',
     'brouillon',
+    'packs'
 ]
 
 MIDDLEWARE = [

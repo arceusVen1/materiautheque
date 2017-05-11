@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+        {{ ss_fam.famille }}
+        <br>
+        {{ ss_fam.usage }}
+        <br>
+        <a href="{% url 'edit_sousFamillePack_path' ss_fam.slug %}">Editer</a>
+        <br>
+        <a href="{% url 'delete_sousFamillePack_path' ss_fam.slug %}">Supprimer</a>
+        <br>
+
+{% endblock content %}

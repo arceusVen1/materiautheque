@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        {{ famille.usage }}
+        <br>
+        {{ famille.slug }}
+        <br>
+        <a href="{% url 'edit_famillePack_path' famille.slug %}">Editer</a>
+        <br>
+        <a href="{% url 'delete_famillePack_path' famille.slug %}">Supprimer</a>
+        <br>
+{% endblock content %}
