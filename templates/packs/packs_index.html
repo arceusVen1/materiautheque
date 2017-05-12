@@ -2,6 +2,15 @@
 
 {% block content %}
 
+    <h1>Packs</h1>
+
+    <div>
+        <h2><a href="{% url "famillesPack_path" %}">Familles packs</a></h2>
+    </div>
+    <div>
+        <h2><a href="{% url "sousFamillesPack_path" %}">Sous-familles packs</a></h2>
+    </div>
+
     <h2><a href="{% url 'new_pack_path' %}">Nouveau</a></h2>
 {% for pack in packs %}
     <a href="{% url 'pack_path' slug=pack.slug %}">{{ pack.slug }}</a>

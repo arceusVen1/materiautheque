@@ -1,46 +1,68 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <div>
-            <h1><a href="">Matériauthèque</a></h1>
-            <br>
-            <h2><a href="{% url "sousFamilles_path" %}">Sous-Familles</a></h2>
-        </div>
-        <div>
-            <h2><a href="{% url "familles_path" %}">Familles</a></h2>
-        </div>
-        <div>
-            <h2><a href="{% url "materiaux_path" %}">Matériaux</a></h2>
-        </div>
-        <div>
-            <h2><a href="{% url "proprietes_path" %}">Propriété</a></h2>
-        </div>
-            <div>
-            <h2><a href="{% url "packs_path" %}">Packs</a></h2>
-        </div>
-        <div>
-            <h2><a href="{% url "famillesPack_path" %}">Familles packs</a></h2>
-        </div>
-            <div>
-            <h2><a href="{% url "sousFamillesPack_path" %}">Sous-familles packs</a></h2>
-        </div>
-        <div>
-            <h2>Dernières matériaux entrés :</h2>
-            {% for mat in last_matx %}
-                <a href="{% url 'materiau_path' mat.slug %}">{{ mat.nom }}</a>
+
+    <div class="jumbotron">
+        <h1>Bienvenue !</h1>
+        <p>Vous pouvez consulter les fiches des matériaux, des propriétés, ainsi que des packs.</p>
+        <br />
+        <p>
+          <a class="btn btn-lg btn-primary" href="/materiaux" role="button">Matériaux &raquo;</a>
+            <a class="btn btn-lg btn-success" href="/propriete" role="button">Propriétés &raquo;</a>
+            <a class="btn btn-lg btn-warning" href="/packs" role="button">Packs &raquo;</a>
+        </p>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-offset-1 col-xs-10 col-sm-4">
+            <h2>Derniers matériaux</h2>
+            <ul>{% for mat in last_matx %}
+                <li><a href="{% url 'materiau_path' mat.slug %}">{{ mat.nom }}</a></li>
                 <br>
-            {% endfor %}
+            {% endfor %}</ul>
         </div>
-        <div>
+
+        <div class="col-xs-offset-1 col-sm-offset-1 col-xs-10 col-sm-4">
+            <h2>Recherche matériaux</h2>
             <form action="" method="post">
                 {% csrf_token %}
                 {% for field in form %}
                     {{ field.label_tag }}
                     <br>
+                    <br>
                     {{ field }}
                     <br>
+                    <br>
                 {% endfor %}
-                <input type="submit" value="enregistrer">
+                <input type="submit" value="Rechercher">
             </form>
         </div>
+    </div>
+
+
+    <div class="row">
+    <div class="col-xs-offset-1 col-xs-10 col-sm-4">
+        <div class="hvr-sweep-to-left back" style="margin-bottom:20px;">
+            <h2>A propos</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+        </div>
+    </div>
+    <div class="col-xs-offset-1 col-sm-offset-1 col-xs-10 col-sm-4">
+        <div class="hvr-sweep-to-left back" style="margin-bottom:20px;">
+            <h2>Infos pratiques</h2>
+            <p>La matériauthèque du Lycée Georges Brassens est ouverte aux horaires suivants :</p>
+            <table class="table"><tr><td>Lundi</td> <td>10h • 18h</td></tr>
+                <tr><td>Mardi</td> <td>10h • 18h</td></tr>
+                <tr><td>Mercredi</td> <td>10h • 18h</td></tr>
+                <tr><td>Jeudi</td> <td>10h • 18h</td></tr>
+                <tr><td>Vendredi</td> <td>10h • 18h</td></tr>
+            </table>
+
+        </div>
+    </div>
+  </div>
+
+
 {% endblock content %}
