@@ -10,6 +10,7 @@
           <a class="btn btn-lg btn-primary" href="/materiaux" role="button">Matériaux &raquo;</a>
             <a class="btn btn-lg btn-success" href="/propriete" role="button">Propriétés &raquo;</a>
             <a class="btn btn-lg btn-warning" href="/packs" role="button">Packs &raquo;</a>
+            <a class="btn btn-lg btn-info" href="{% url "brouillons_path" %}" role="button">Brouillon &raquo;</a>
         </p>
     </div>
 
@@ -34,7 +35,7 @@
                     <br>
                     <br>
                 {% endfor %}
-                <input type="submit" value="Rechercher">
+                <input type="submit" value="Rechercher" class="btn btn-sm">
             </form>
         </div>
     </div>

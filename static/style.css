@@ -29,4 +29,14 @@
     color: rgba(173, 173, 173, 0.74);
 }
 
+footer {
+    margin-top: 50px;
+}
 
+body > .container {
+    padding-top: 60px;
+}
+
+.titremateriau {
+    text-transform: uppercase !important;
+}
