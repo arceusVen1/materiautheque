@@ -96,7 +96,7 @@ def create_or_edit_materiau(request, slug=None):
     template = 'materiaux/materiau_create.html'
     if mat is not None:
         initial = dict(nom=mat.nom, ss_famille=mat.ss_famille, fournisseur=mat.fournisseur, normatif=mat.normatif,
-                       disponible=mat.disponible)
+                       disponible=mat.disponible, aspect_visuel=mat.aspect_visuel, aspect_tacile=mat.aspect_tactile)
         proprietes = mat.get_proprietes()
         for propriete in proprietes:
             try:
@@ -112,6 +112,7 @@ def create_or_edit_materiau(request, slug=None):
         fournisseur = form.cleaned_data["fournisseur"]
         normatif = form.cleaned_data["normatif"]
         disponible = form.cleaned_data["disponible"]
+        aspect_visuel = form.cleaned_data["aspect_visuel"]
         for propriete in Propriete.objects.all():
             if form.cleaned_data[propriete.slug] is None:
                 proprietes.append({"id": propriete.id, "valeur": -1})
@@ -123,9 +124,10 @@ def create_or_edit_materiau(request, slug=None):
             mat.fournisseur = fournisseur
             mat.normatif = normatif
             mat.disponible = disponible
+            mat.aspect_visuel = aspect_visuel
         else:
             mat = Materiau(nom=nom, ss_famille=ss_famille, fournisseur=fournisseur, normatif=normatif,
-                           disponible=disponible)
+                           disponible=disponible, aspect_visuel=aspect_visuel)
         mat.set_proprietes(proprietes)
         mat.save()
         return HttpResponseRedirect(reverse('materiau_path', args=[mat.slug]))

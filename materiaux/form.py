@@ -5,13 +5,47 @@ from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
+
 class MateriauForm(forms.Form):
+
+
+    ASPECT_VISUEL_CHOICES = (
+        ('OPAQUE', 'opaque'),
+        ('TRANSLUCIDE', 'translucide'),
+        ('OPALESCENT', 'opalescent'),
+        ('DIFFUSANT', 'diffusant'),
+        ('DEPOLI', 'dépoli'),
+        ('BROSSE', 'brossé'),
+        ('TRANSPARENT', 'transparent'),
+        ('BRILLANT', 'brillant'),
+        ('SATINE', 'satiné'),
+        ('MAT', 'mat'),
+        ('TEXTURE', 'texturé'),
+        ('REFLECHISSANT', 'réfléchissant'),
+        ('ILLUSION_OPTIQUE', 'illusion optique')
+    )
+
+    ASPECT_TACTILE_CHOICES = (
+        ('LISSE', 'lisse'),
+        ('RUGUEUX', 'rugueux'),
+        ('SOYEUX', 'soyeux'),
+        ('DUVETEUX', 'duveteux'),
+        ('PELUCHEUX', 'pelucheux'),
+        ('DOUX', 'doux'),
+        ('GOMME', 'gommé'),
+        ('FLUIDE', 'fluide'),
+        ('TEXTURE', 'texturé'),
+        ('CHAUD', 'chaud'),
+        ('FROID', 'froid'),
+        ('REPONSE_AU_CONTACT', 'réponse au contact')
+    )
 
     nom = forms.CharField(max_length=255, label="Nom Générique")
     ss_famille = forms.ModelChoiceField(label="Sous-familles", queryset=SousFamille.objects.all().order_by('famille__slug'))
     fournisseur = forms.CharField(max_length=255, label="Fournisseur", initial="N.R.")
     normatif = forms.CharField(max_length=255, label="Critère normatif", initial="N.R.")
     disponible = forms.BooleanField(label="Objet disponible", required=False)
+    aspect_visuel = forms.MultipleChoiceField(choices=ASPECT_VISUEL_CHOICES, widget=forms.CheckboxSelectMultiple, label="Aspect visuel")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

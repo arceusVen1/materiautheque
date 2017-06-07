@@ -8,6 +8,37 @@ class Materiau(models.Model):
 
     NORMATIF_CHOICES = (("NR", "N.R"), ("ECO", "écolo"))
 
+    ASPECT_VISUEL_CHOICES = (
+        ('OPAQUE', 'opaque'),
+        ('TRANSLUCIDE', 'translucide'),
+        ('OPALESCENT', 'opalescent'),
+        ('DIFFUSANT', 'diffusant'),
+        ('DEPOLI', 'dépoli'),
+        ('BROSSE', 'brossé'),
+        ('TRANSPARENT', 'transparent'),
+        ('BRILLANT', 'brillant'),
+        ('SATINE', 'satiné'),
+        ('MAT', 'mat'),
+        ('TEXTURE', 'texturé'),
+        ('REFLECHISSANT', 'réfléchissant'),
+        ('ILLUSION_OPTIQUE', 'illusion optique')
+    )
+
+    ASPECT_TACTILE_CHOICES = (
+        ('LISSE', 'lisse'),
+        ('RUGUEUX', 'rugueux'),
+        ('SOYEUX', 'soyeux'),
+        ('DUVETEUX', 'duveteux'),
+        ('PELUCHEUX', 'pelucheux'),
+        ('DOUX', 'doux'),
+        ('GOMME', 'gommé'),
+        ('FLUIDE', 'fluide'),
+        ('TEXTURE', 'texturé'),
+        ('CHAUD', 'chaud'),
+        ('FROID', 'froid'),
+        ('REPONSE_AU_CONTACT', 'réponse au contact')
+    )
+
     class Meta:
         verbose_name = "Materiau"
         verbose_name_plural = "Materiaux"
@@ -23,6 +54,9 @@ class Materiau(models.Model):
     normatif = models.CharField("Critère normatif", choices=NORMATIF_CHOICES, default=(0, "N.R."), max_length=255)
     proprietes = models.TextField("Propriétés", null=True, default="{}")
     qrcode = models.ImageField(upload_to='materiaux', null=True, default=None)
+    aspect_visuel = models.CharField("Aspect visuel", choices=ASPECT_VISUEL_CHOICES, max_length=50, default=(0,"N.R."))
+    aspect_tactile = models.CharField("Aspect tactile", choices=ASPECT_TACTILE_CHOICES, max_length=50, default=(0,"N.R."))
+
 
     def set_proprietes(self, proprietes):
         self.proprietes = json.dumps(proprietes)
