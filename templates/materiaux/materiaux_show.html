@@ -4,17 +4,25 @@
 
     <div class="page-header" style="text-transform: uppercase"><h1>{{ mat.nom }}</h1></div>
 
+    <div><h3>Informations générales</h3></div>
+
+    <div class="matinfo">
     <p>
-    <br />Famille • {{ mat.famille }}
-    <br />Sous-famille • {{ mat.ss_famille }}
-    <br />Usage • {{ mat.usage }}
-    <br />Fournisseur • {{ mat.fournisseur }}
-    <br />Disponible ? {{ mat.disponible }}
-    <br />Normatif • {{ mat.normatif }}
-    <br />Aspect visuel • {{ mat.aspect_visuel }}
+
+        <br />Famille • {{ mat.famille }}
+        <br />Sous-famille • {{ mat.ss_famille }}
+        <br />Usage • {{ mat.usage }}
+        <br />Fournisseur • {{ mat.fournisseur }}
+        <br />Disponible ? {{ mat.disponible }}
+        <br />Normatif • {{ mat.normatif }}
+        <br />Aspect visuel • {{ mat.aspect_visuel }}
+        <br />Aspect tactile • {{ mat.aspect_tactile }}
     </p>
+    </div>
 
     <div><h3>Propriétés</h3></div>
+
+    <div class="matinfo">
 
         {% for propriete in proprietes %}
             {% if propriete.valeur != -1 %}
@@ -22,6 +30,8 @@
                 <br>
             {% endif %}
         {% endfor %}
+
+    </div>
 
     <div><h3>Images</h3></div>
 

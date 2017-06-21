@@ -2,9 +2,15 @@
 
 {% block content %}
 
-    <h2><a href="{% url 'new_sousFamille_path' %}">Nouveau</a></h2>
+    <h1>Sous-familles de matériaux</h1>
+    <br />
+    <br />
+    <a class="btn btn-lg btn-default" href="{% url 'new_sousFamille_path' %}">Nouveau</a>
+    <br />
+    <br />
 {% for ss_fam in ss_fams %}
-    <a href="{% url 'sousFamille_path' slug=ss_fam.slug %}">{{ ss_fam.slug }}</a>
+    <a href="{% url 'sousFamille_path' slug=ss_fam.slug %}">{{ ss_fam.matiere }}</a>
+    <br />
 {% endfor %}
 
 {% endblock content %}

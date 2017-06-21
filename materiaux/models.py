@@ -119,7 +119,7 @@ class Materiau(models.Model):
 class Famille(models.Model):
 
     matiere = models.CharField(max_length=255)
-    slug = models.CharField(max_length=4, unique=True)
+    slug = models.CharField(max_length=4, unique=True, verbose_name="Référence")
 
     # slug auto build ?
     def save(self, force_insert=False, force_update=False, using=None,

@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2><a href="{% url 'new_famille_path' %}">Nouveau</a></h2>
-{% for famille in familles %}
-    <a href="{% url 'famille_path' slug=famille.slug %}">{{ famille.slug }}</a>
 
+<h1>Familles de matériaux</h1>
+<br />
+<br />
+<a class="btn btn-lg btn-default" href="{% url 'new_famille_path' %}">Nouveau</a>
+<br />
+<br />
+
+{% for famille in familles %}
+    <a href="{% url 'famille_path' slug=famille.slug %}">{{ famille.matiere }}</a>
+    <br />
 {% endfor %}
 
 {% endblock content %}

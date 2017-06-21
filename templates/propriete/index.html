@@ -2,9 +2,14 @@
 
 {% block content %}
 
-    <h2><a href="{% url 'new_propriete_path' %}">Nouveau</a></h2>
-{% for propriete in proprietes %}
+    <h1>Propriétés</h1>
+    <br />
+    <div><a class="btn btn-lg btn-default" href="{% url 'new_propriete_path' %}">Nouveau</a></div>
+    <br />
+    <div>{% for propriete in proprietes %}
     <a href="{% url 'propriete_path' slug=propriete.slug %}">{{ propriete.slug }}</a>
-{% endfor %}
+        <br />
+{% endfor %}</div>
+
 
 {% endblock content %}

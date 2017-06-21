@@ -46,6 +46,7 @@ class MateriauForm(forms.Form):
     normatif = forms.CharField(max_length=255, label="Critère normatif", initial="N.R.")
     disponible = forms.BooleanField(label="Objet disponible", required=False)
     aspect_visuel = forms.MultipleChoiceField(choices=ASPECT_VISUEL_CHOICES, widget=forms.CheckboxSelectMultiple, label="Aspect visuel")
+    aspect_tactile = forms.MultipleChoiceField(choices=ASPECT_TACTILE_CHOICES, widget=forms.CheckboxSelectMultiple, label="Aspect tactile")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

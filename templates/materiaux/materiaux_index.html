@@ -4,16 +4,14 @@
 
     <h1>Matériaux</h1>
 
-    <div>
-            <h2><a href="{% url "sousFamilles_path" %}">Sous-Familles</a></h2>
-    </div>
-    <div>
-            <h2><a href="{% url "familles_path" %}">Familles</a></h2>
-    </div>
-
-    <h2><a href="{% url 'new_materiau_path' %}">Nouveau</a></h2>
+    <a class="btn btn-lg btn-primary" href="{% url "sousFamilles_path" %}">Sous-familles</a>
+    <a class="btn btn-lg btn-primary" href="{% url "familles_path" %}">Familles</a>
+    <a class="btn btn-lg btn-default" href="{% url 'new_materiau_path' %}">Nouveau</a>
+    <br />
+    <br />
 {% for materiau in materiaux %}
-    <a href="{% url 'materiau_path' slug=materiau.slug %}">{{ materiau.slug }}</a>
+    <a href="{% url 'materiau_path' slug=materiau.slug %}">{{ materiau.nom }}</a>
+    <br />
 {% endfor %}
 
 {% endblock content %}
